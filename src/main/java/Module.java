@@ -10,7 +10,6 @@ public class Module {
     public Module(String name) {
         this.name = name;
         this.file = new File("docs/" + name + ".md");
-        Log.info("hello");
         try {
             this.writer = new PrintWriter(file);
         } catch (FileNotFoundException e) {

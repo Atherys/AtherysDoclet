@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ScriptFunction {
     private static final String jsNameTag = "jsname";
-    private static final String exampleTag = "example";
+    private static final String exampleTag = "ex";
     private String name;
     private String description;
     private String returnType;
@@ -48,7 +48,6 @@ public class ScriptFunction {
         returnType = methodDoc.returnType().simpleTypeName();
         this.name = name;
         this.module = module;
-        Log.info(signature());
     }
 
     /**
@@ -86,16 +85,22 @@ public class ScriptFunction {
         module.writeln("```js");
         module.writeln(signature());
         module.writeln("```");
-        module.writeln("");
-        paramDescs.forEach(tag -> module.writeln(Utils.split(tag.text())));
+        paramDescs.forEach(tag -> {
+            module.writeln("");
+            module.writeln(Utils.split(tag.text()));
+        });
         if (returnDesc != null) {
-            module.writeln(returnType + ": " + returnDesc);
+            module.writeln("");
+            module.writeln("Returns a _**" + returnType + "**_: " + returnDesc);
         }
         if (example.size() > 0) {
+            module.writeln("");
             module.writeln("#### Example:");
+            module.writeln("");
             module.writeln("```js");
             example.forEach(code -> module.writeln(code));
             module.writeln("```");
         }
+        module.writeln("");
     }
 }

@@ -2,8 +2,7 @@ import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Starting class for the documentation generator.
@@ -11,14 +10,23 @@ import java.util.Map;
 public class MarkdownDoclet {
 
     private static Map<String, Module> modules = new HashMap<>();
-    private static final String functionTag = "jsfunction";
+    private static final String functionTag = "jsfunc";
+
+    private static final Set<String> functionNames = new HashSet<>();
+
+    static {
+        functionNames.add("apply");
+        functionNames.add("get");
+        functionNames.add("accept");
+    }
+
 
     public static boolean start(RootDoc start) {
         int functionFiles = 0;
         Utils.makeDir("docs");
 
         for (ClassDoc classDoc : start.classes()) {
-            if (classDoc.tags("jsfunction").length > 0) {
+            if (classDoc.tags(functionTag).length > 0) {
                 handleClass(classDoc);
                 functionFiles++;
             }
@@ -36,7 +44,7 @@ public class MarkdownDoclet {
 
     private static void handleClass(ClassDoc classDoc) {
         for (MethodDoc methodDoc : classDoc.methods()) {
-            if (methodDoc.overriddenMethod() != null) {
+            if (functionNames.contains(methodDoc.name())) {
                 String module = classDoc.containingPackage().name();
                 module = module.substring(module.lastIndexOf(".") + 1);
                 if (!modules.containsKey(module)) {

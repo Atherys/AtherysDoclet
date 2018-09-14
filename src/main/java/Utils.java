@@ -8,6 +8,6 @@ public class Utils {
 
     public static String split(String tagText) {
         int index = tagText.indexOf(" ");
-        return tagText.substring(0, index) + ":" + tagText.substring(index);
+        return "**" + tagText.substring(0, index) + "**:" + tagText.substring(index);
     }
 }
