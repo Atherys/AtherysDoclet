@@ -1,6 +1,6 @@
 # AtherysDoclet
 
-This is the Javadoc doclet for generating documentation for AtherysScript from the Java code. To run it, download the latest [release](https://github.com/Atherys-Horizons/AtherysDocs/releases) and run it with the following command:
+This is the Javadoc doclet for generating documentation for AtherysScript from the Java code. To run it, download the latest [release](https://github.com/Atherys-Horizons/AtherysDocs/releases), unzip it and run it with the following command:
 
 ```
 python docgen.py paths/to/dependent/jars path/to/plugin/directory
