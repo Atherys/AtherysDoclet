@@ -16,6 +16,7 @@ dependencies {
     compile 'org.mongodb:mongo-java-driver:3.8.1'
     compile 'commons-codec:commons-codec:1.10:sources'
     compile 'commons-codec:commons-codec:1.10:javadoc'
+    compile files("${JAVA_HOME}/../lib/tools.jar")
 }
 
 task hello {
