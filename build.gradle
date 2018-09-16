@@ -7,6 +7,15 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
+
 repositories {
     mavenCentral()
     maven {
