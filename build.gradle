@@ -16,7 +16,7 @@ dependencies {
     compile 'org.mongodb:mongo-java-driver:3.8.1'
     compile 'commons-codec:commons-codec:1.10:sources'
     compile 'commons-codec:commons-codec:1.10:javadoc'
-    compile group: 'org.mongodb', name: 'bson', version: '2.3'
+    compile group: 'org.bson', name: 'bson', version: '2.3'
     compile files("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64/lib/tools.jar")
 }
 
