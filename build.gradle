@@ -16,6 +16,9 @@ buildscript {
     }
 }
 
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
+
 repositories {
     mavenCentral()
     maven {
