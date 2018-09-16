@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile files('/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64/lib/tools.jar')
+    compile 'org.mongodb:mongo-java-driver:3.8.1'
 }
 
 task hello {
