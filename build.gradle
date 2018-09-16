@@ -19,6 +19,14 @@ dependencies {
     compile files("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64/lib/tools.jar")
     compile files("/var/lib/jenkins/resources/mongo-java-driver-3.8.1.jar")
     compile files("/var/lib/jenkins/workspace/AtherysCore.jar/build/libs/AtherysCore-all.jar")
+    shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
+    shadow 'com.github.Atherys-Horizons:AtherysCore:master-SNAPSHOT'
+    shadow 'com.github.Atherys-Horizons:AtherysScript:master-SNAPSHOT'
+}
+
+shadowJar {
+    relocate 'org.bson', 'com.atherys.libs.org.bson'
+    relocate 'com.mongodb', 'com.atherys.libs.com.mongodb'
 }
 
 task hello {
