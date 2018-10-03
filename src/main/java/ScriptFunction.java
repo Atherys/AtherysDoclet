@@ -79,8 +79,10 @@ public class ScriptFunction {
     public void write() {
         module.writeln("## " + name);
         module.writeln("");
-        module.writeln(description);
-        module.writeln("");
+        if (description.length() > 0) {
+            module.writeln(description);
+            module.writeln("");
+        }
         module.writeln("#### Signature:");
         module.writeln("```js");
         module.writeln(signature());
