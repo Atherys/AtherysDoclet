@@ -20,7 +20,6 @@ public class MarkdownDoclet {
         functionNames.add("accept");
     }
 
-
     public static boolean start(RootDoc start) {
         int functionFiles = 0;
         Utils.makeDir("docs");
@@ -43,14 +42,20 @@ public class MarkdownDoclet {
     }
 
     private static void handleClass(ClassDoc classDoc) {
+
+        //Loop through methods to see if they are functional interfaces
+        //Add
         for (MethodDoc methodDoc : classDoc.methods()) {
             if (functionNames.contains(methodDoc.name())) {
-                String module = classDoc.containingPackage().name();
-                module = module.substring(module.lastIndexOf(".") + 1);
-                if (!modules.containsKey(module)) {
-                    modules.put(module, new Module(module));
+                String moduleName = classDoc.containingPackage().name();
+                classDoc.containingPackage();
+                moduleName = moduleName.substring(moduleName.lastIndexOf(".") + 1);
+
+                if (!modules.containsKey(moduleName)) {
+                    modules.put(moduleName, new Module(moduleName, classDoc.containingPackage().commentText()));
                 }
-                handleFunc(methodDoc, module);
+
+                handleFunc(methodDoc, moduleName);
             }
         }
     }

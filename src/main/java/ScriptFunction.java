@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Represents a single scripting function.
+ */
 public class ScriptFunction {
     private static final String jsNameTag = "jsname";
     private static final String exampleTag = "ex";
