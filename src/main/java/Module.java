@@ -19,6 +19,7 @@ public class Module {
         try {
             this.writer = new PrintWriter(file);
             writeln(overview);
+            writeln("");
         } catch (FileNotFoundException e) {
             Log.error("File not found for module " + name);
         }
