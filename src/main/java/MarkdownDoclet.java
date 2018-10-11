@@ -1,6 +1,7 @@
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
+import com.sun.javadoc.Tag;
 
 import java.util.*;
 
@@ -21,17 +22,14 @@ public class MarkdownDoclet {
     }
 
     public static boolean start(RootDoc start) {
-        int functionFiles = 0;
         Utils.makeDir("docs");
 
-        for (ClassDoc classDoc : start.classes()) {
-            if (classDoc.tags(functionTag).length > 0) {
+        Arrays.asList(start.classes()).forEach(classDoc -> {
+            Utils.getTag(classDoc, functionTag).ifPresent((t) -> {
                 handleClass(classDoc);
-                functionFiles++;
-            }
-        }
+            });
+        });
 
-        Log.info("Files processed: " + functionFiles);
         Log.info("Modules found:");
         modules.forEach((name, module) -> {
             Log.info(name);
@@ -44,7 +42,6 @@ public class MarkdownDoclet {
     private static void handleClass(ClassDoc classDoc) {
 
         //Loop through methods to see if they are functional interfaces
-        //Add
         for (MethodDoc methodDoc : classDoc.methods()) {
             if (functionNames.contains(methodDoc.name())) {
                 String moduleName = classDoc.containingPackage().name();
@@ -52,7 +49,16 @@ public class MarkdownDoclet {
                 moduleName = moduleName.substring(moduleName.lastIndexOf(".") + 1);
 
                 if (!modules.containsKey(moduleName)) {
-                    modules.put(moduleName, new Module(moduleName, classDoc.containingPackage().commentText()));
+                    Tag[] fileTag = classDoc.tags("file");
+                    String fileName = moduleName;
+
+                    String overview = classDoc.containingPackage().commentText();
+
+                    if (fileTag.length > 0) {
+                        fileName = fileTag[0] .text();
+                    }
+
+                    modules.put(moduleName, new Module(moduleName, overview, fileName));
                 }
 
                 handleFunc(methodDoc, moduleName);

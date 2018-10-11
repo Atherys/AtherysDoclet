@@ -7,19 +7,17 @@ import java.io.PrintWriter;
  */
 public class Module {
     private String name;
-    private String overview;
     private File file;
     private PrintWriter writer;
 
-    public Module(String name, String overview) {
+    public Module(String name, String overview, String fileName) {
         this.name = name;
-        this.overview = overview;
-        this.file = new File("docs/" + name + ".md");
+        this.file = new File("docs/" + fileName + ".md");
 
         try {
             this.writer = new PrintWriter(file);
             writeln(overview);
-            writeln("");
+            writeln();
         } catch (FileNotFoundException e) {
             Log.error("File not found for module " + name);
         }
@@ -27,6 +25,10 @@ public class Module {
 
     public void writeln(String line) {
         writer.println(line);
+    }
+
+    public void writeln() {
+        writeln("");
     }
 
     public void close() {

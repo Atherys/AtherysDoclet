@@ -5,6 +5,7 @@ import com.sun.javadoc.Tag;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Represents a single scripting function.
@@ -23,22 +24,17 @@ public class ScriptFunction {
     private List<Parameter> parameters;
 
     public ScriptFunction(MethodDoc methodDoc, Module module) {
-        Tag[] nameTag = methodDoc.tags(jsNameTag);
-        String name;
+        Optional<String> nameTag = Utils.getTag(methodDoc, jsNameTag);
 
         //Default name is the class name with the first letter lowercase
-        if (nameTag.length == 0) {
+        if (nameTag.isPresent()) {
+            name = nameTag.get();
+        } else {
             String containing = methodDoc.containingClass().simpleTypeName();
             name = Character.toLowerCase(containing.charAt(0)) + containing.substring(1);
-        } else {
-            name = nameTag[0].text();
         }
 
-
-        Tag[] descTag = methodDoc.tags("return");
-        if (descTag.length > 0) {
-            returnDesc = descTag[0].text();
-        }
+        Utils.getTag(methodDoc, "return").ifPresent(this::setDescription);
 
         example = new ArrayList<>();
         for (Tag code : methodDoc.tags(exampleTag)) {
@@ -49,8 +45,15 @@ public class ScriptFunction {
         parameters = Arrays.asList(methodDoc.parameters());
         paramDescs = Arrays.asList(methodDoc.tags("param"));
         returnType = methodDoc.returnType().simpleTypeName();
-        this.name = name;
         this.module = module;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    private void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -81,31 +84,31 @@ public class ScriptFunction {
      */
     public void write() {
         module.writeln("## " + name);
-        module.writeln("");
+        module.writeln();
         if (description.length() > 0) {
             module.writeln(description);
-            module.writeln("");
+            module.writeln();
         }
         module.writeln("#### Signature:");
         module.writeln("```js");
         module.writeln(signature());
         module.writeln("```");
         paramDescs.forEach(tag -> {
-            module.writeln("");
+            module.writeln();
             module.writeln(Utils.split(tag.text()));
         });
         if (returnDesc != null) {
-            module.writeln("");
+            module.writeln();
             module.writeln("Returns a _**" + returnType + "**_: " + returnDesc);
         }
         if (example.size() > 0) {
-            module.writeln("");
+            module.writeln();
             module.writeln("#### Example:");
-            module.writeln("");
+            module.writeln();
             module.writeln("```js");
             example.forEach(code -> module.writeln(code));
             module.writeln("```");
         }
-        module.writeln("");
+        module.writeln();
     }
 }
