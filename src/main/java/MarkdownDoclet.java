@@ -49,7 +49,7 @@ public class MarkdownDoclet {
                 moduleName = moduleName.substring(moduleName.lastIndexOf(".") + 1);
 
                 if (!modules.containsKey(moduleName)) {
-                    Tag[] fileTag = classDoc.tags("file");
+                    Tag[] fileTag = classDoc.containingPackage().tags("file");
                     String fileName = moduleName;
 
                     String overview = classDoc.containingPackage().commentText();
