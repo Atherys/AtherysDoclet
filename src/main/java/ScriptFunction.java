@@ -88,8 +88,10 @@ public class ScriptFunction {
         if (description.length() > 0) {
             module.writeln(description);
             module.writeln();
+            module.writeln("#### Signature:");
+        } else {
+            module.writeln("<h4 style=\"padding-top: 4.6rem\"> Signature: </h4>");
         }
-        module.writeln("#### Signature:");
         module.writeln("```js");
         module.writeln(signature());
         module.writeln("```");
