@@ -16,7 +16,7 @@ public class ScriptFunction {
     private String name;
     private String description;
     private String returnType;
-    private String returnDesc;
+    private String returnDescription;
     private Module module;
 
     private List<String> example;
@@ -53,7 +53,7 @@ public class ScriptFunction {
     }
 
     private void setDescription(String description) {
-        this.description = description;
+        returnDescription = description;
     }
 
     /**
@@ -100,9 +100,9 @@ public class ScriptFunction {
             module.writeln();
             module.writeln(Utils.split(tag.text()));
         });
-        if (returnDesc != null) {
+        if (returnDescription != null) {
             module.writeln();
-            module.writeln("Returns a _**" + returnType + "**_: " + returnDesc);
+            module.writeln("Returns a _**" + returnType + "**_: " + returnDescription);
         }
         if (example.size() > 0) {
             module.writeln();
