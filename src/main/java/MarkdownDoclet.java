@@ -30,9 +30,9 @@ public class MarkdownDoclet {
             });
         });
 
-        Log.info("Modules found:");
+        System.out.println("Modules found:");
         modules.forEach((name, module) -> {
-            Log.info(name);
+            System.out.println(name);
             module.close();
         });
 
