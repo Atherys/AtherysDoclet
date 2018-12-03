@@ -97,8 +97,10 @@ public class ScriptFunction {
         module.writeln(signature());
         module.writeln("```");
         paramDescs.forEach(tag -> {
-            module.writeln();
-            module.writeln(Utils.split(tag.text()));
+            if (tag.text().split(" ").length >= 2) {
+                module.writeln();
+                module.writeln(Utils.split(tag.text()));
+            }
         });
         if (returnDescription != null) {
             module.writeln();

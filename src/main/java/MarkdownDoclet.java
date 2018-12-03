@@ -40,7 +40,6 @@ public class MarkdownDoclet {
     }
 
     private static void handleClass(ClassDoc classDoc) {
-
         //Loop through methods to see if they are functional interfaces
         for (MethodDoc methodDoc : classDoc.methods()) {
             if (functionNames.contains(methodDoc.name())) {
