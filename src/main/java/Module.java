@@ -19,7 +19,7 @@ public class Module {
             writeln(overview);
             writeln();
         } catch (FileNotFoundException e) {
-            Log.error("File not found for module " + name);
+            System.out.println("File not found for module " + name);
         }
     }
 
