@@ -92,7 +92,7 @@ public class ScriptFunction {
             module.writeln();
             module.writeln("### Signature:");
         } else {
-            module.writeln("<h3 style=\"padding-top: 4.6rem\"> Signature: </h4>");
+            module.writeln("<h3 style=\"padding-top: 4.6rem\"> Signature: </h3>");
             module.writeln();
         }
 
