@@ -25,7 +25,7 @@ public class MarkdownDoclet {
         Utils.makeDir("docs");
 
         Arrays.asList(start.classes()).forEach(classDoc -> {
-            Utils.getTag(classDoc, functionTag).ifPresent((t) -> {
+            Utils.getTag(classDoc, FUNCTION_TAG).ifPresent((t) -> {
                 handleClass(classDoc);
             });
         });
