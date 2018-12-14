@@ -90,9 +90,9 @@ public class ScriptFunction {
         if (description.length() > 0) {
             module.writeln(description);
             module.writeln();
-            module.writeln("#### Signature:");
+            module.writeln("### Signature:");
         } else {
-            module.writeln("<h4 style=\"padding-top: 4.6rem\"> Signature: </h4>");
+            module.writeln("<h3 style=\"padding-top: 4.6rem\"> Signature: </h4>");
             module.writeln();
         }
 
@@ -101,7 +101,7 @@ public class ScriptFunction {
         module.writeln("```");
 
 		if (paramDescs.size() > 0) {
-			module.writeln("#### Arguments");
+			module.writeln("### Arguments");
 		}
         paramDescs.forEach(tag -> {
             if (tag.text().split(" ").length >= 2) {
@@ -117,7 +117,7 @@ public class ScriptFunction {
 
         if (example.size() > 0) {
             module.writeln();
-            module.writeln("#### Example:");
+            module.writeln("### Example:");
             module.writeln();
             module.writeln("```js");
             example.forEach(code -> module.writeln(code));
