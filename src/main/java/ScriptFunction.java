@@ -101,7 +101,7 @@ public class ScriptFunction {
         module.writeln("```");
 
 		if (paramDescs.size() > 0) {
-			module.writeln("### Arguments");
+			module.writeln("### Arguments:");
 		}
         paramDescs.forEach(tag -> {
             if (tag.text().split(" ").length >= 2) {
