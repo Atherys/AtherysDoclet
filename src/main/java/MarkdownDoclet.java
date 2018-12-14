@@ -11,14 +11,14 @@ import java.util.*;
 public class MarkdownDoclet {
 
     private static Map<String, Module> modules = new HashMap<>();
-    private static final String functionTag = "jsfunc";
 
-    private static final Set<String> functionNames = new HashSet<>();
+    private static final String FUNCTION_TAG = "jsfunc";
+    private static final Set<String> FUNCTION_NAMES = new HashSet<>();
 
     static {
-        functionNames.add("apply");
-        functionNames.add("get");
-        functionNames.add("accept");
+        FUNCTION_NAMES.add("apply");
+        FUNCTION_NAMES.add("get");
+        FUNCTION_NAMES.add("accept");
     }
 
     public static boolean start(RootDoc start) {
@@ -42,31 +42,28 @@ public class MarkdownDoclet {
     private static void handleClass(ClassDoc classDoc) {
         //Loop through methods to see if they are functional interfaces
         for (MethodDoc methodDoc : classDoc.methods()) {
-            if (functionNames.contains(methodDoc.name())) {
-                String moduleName = classDoc.containingPackage().name();
-                classDoc.containingPackage();
-                moduleName = moduleName.substring(moduleName.lastIndexOf(".") + 1);
-
-                if (!modules.containsKey(moduleName)) {
-                    Tag[] fileTag = classDoc.containingPackage().tags("file");
-                    String fileName = moduleName;
-
-                    String overview = classDoc.containingPackage().commentText();
-
-                    if (fileTag.length > 0) {
-                        fileName = fileTag[0] .text();
-                    }
-
-                    modules.put(moduleName, new Module(moduleName, overview, fileName));
-                }
-
-                handleFunc(methodDoc, moduleName);
+            if (FUNCTION_NAMES.contains(methodDoc.name())) {
+				new ScriptFunction(methodDoc, createModule(classDoc)).write();
             }
         }
     }
 
-    private static void handleFunc(MethodDoc methodDoc, String module) {
-        ScriptFunction function = new ScriptFunction(methodDoc, modules.get(module));
-        function.write();
-    }
+	private static Module createModule(ClassDoc classDoc) {
+		String moduleName = classDoc.containingPackage().name();
+		moduleName = moduleName.substring(moduleName.lastIndexOf(".") + 1);
+
+		if (!modules.containsKey(moduleName)) {
+			Tag[] fileTag = classDoc.containingPackage().tags("file");
+
+			String fileName = moduleName;
+			if (fileTag.length > 0) {
+				fileName = fileTag[0] .text();
+			}
+			String overview = classDoc.containingPackage().commentText();
+
+			modules.put(moduleName, new Module(moduleName, overview, fileName));
+		}
+
+		return modules.get(moduleName);
+	}
 }

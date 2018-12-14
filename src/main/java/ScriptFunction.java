@@ -11,8 +11,9 @@ import java.util.Optional;
  * Represents a single scripting function.
  */
 public class ScriptFunction {
-    private static final String jsNameTag = "jsname";
-    private static final String exampleTag = "ex";
+    private static final String NAME_TAG = "jsname";
+    private static final String EXAMPLE_TAG = "ex";
+
     private String name;
     private String description;
     private String returnType;
@@ -24,7 +25,7 @@ public class ScriptFunction {
     private List<Parameter> parameters;
 
     public ScriptFunction(MethodDoc methodDoc, Module module) {
-        Optional<String> nameTag = Utils.getTag(methodDoc, jsNameTag);
+        Optional<String> nameTag = Utils.getTag(methodDoc, NAME_TAG);
 
         //Default name is the class name with the first letter lowercase
         if (nameTag.isPresent()) {
@@ -37,7 +38,7 @@ public class ScriptFunction {
         Utils.getTag(methodDoc, "return").ifPresent(this::setDescription);
 
         example = new ArrayList<>();
-        for (Tag code : methodDoc.tags(exampleTag)) {
+        for (Tag code : methodDoc.tags(EXAMPLE_TAG)) {
             example.add(code.text());
         }
 
@@ -85,6 +86,7 @@ public class ScriptFunction {
     public void write() {
         module.writeln("## " + name);
         module.writeln();
+
         if (description.length() > 0) {
             module.writeln(description);
             module.writeln();
@@ -93,19 +95,26 @@ public class ScriptFunction {
             module.writeln("<h4 style=\"padding-top: 4.6rem\"> Signature: </h4>");
             module.writeln();
         }
+
         module.writeln("```js");
         module.writeln(signature());
         module.writeln("```");
+
+		if (paramDescs.size() > 0) {
+			module.writeln("#### Arguments");
+		}
         paramDescs.forEach(tag -> {
             if (tag.text().split(" ").length >= 2) {
                 module.writeln();
                 module.writeln(Utils.split(tag.text()));
             }
         });
+
         if (returnDescription != null) {
             module.writeln();
             module.writeln("Returns a _**" + returnType + "**_: " + returnDescription);
         }
+
         if (example.size() > 0) {
             module.writeln();
             module.writeln("#### Example:");
