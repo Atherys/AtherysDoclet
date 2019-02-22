@@ -1,3 +1,5 @@
+package com.atherys.doclet;
+
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;

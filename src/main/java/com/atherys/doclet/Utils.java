@@ -1,3 +1,5 @@
+package com.atherys.doclet;
+
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
 

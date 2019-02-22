@@ -1,3 +1,5 @@
+package com.atherys.doclet;
+
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Parameter;
 import com.sun.javadoc.Tag;
@@ -68,7 +70,7 @@ public class ScriptFunction {
                 .append("(");
         int index = 0;
         for (Parameter parameter : parameters) {
-            sigBuilder.append(parameter.type().simpleTypeName());
+            sigBuilder.append(parameter.type().simpleTypeName()).append(parameter.type().dimension());
             sigBuilder.append(" ");
             sigBuilder.append(parameter.name());
             index++;
