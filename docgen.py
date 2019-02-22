@@ -1,23 +1,31 @@
 import subprocess
 import sys
 import os
+import argparse
+
+parser = argparse.ArgumentParser(description='Tool for generating documentation.')
+parser.add_argument('doclet', type=str, help='The main class of the doclet')
+parser.add_argument('sourceDir', type=str, help='The directory of the project to document')
+parser.add_argument('-a', type=str, nargs='*', help='Additional jars; tools.jar should be one of them.')
+
+args = parser.parse_args()
 
 jars = ''
-for i in range(1, len(sys.argv)-2):
-    jars += ':' + sys.argv[i]
+if args.a:
+    for jar in args.a:
+        jars += ':' + jar
 
 javadoc = [
     'javadoc', 
     '-cp', 
-    '/var/lib/jenkins/resources/tools.jar:/var/lib/jenkins/resources/spongeapi.jar' + jars, 
+    jars, 
     '-doclet',
-    'MarkdownDoclet',
+    'com.atherys.doclet.MarkdownDoclet',
     '-docletpath', 
-    sys.argv[len(sys.argv)-2]
+    args.doclet
 ]
 
-target = sys.argv[len(sys.argv)-1]
-for root, dirs, files in os.walk(target):
+for root, dirs, files in os.walk(args.sourceDir):
     for file in files:
         if file.endswith('java'):
             javadoc.append(os.path.join(root, file))
