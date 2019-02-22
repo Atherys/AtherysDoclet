@@ -1,51 +1,17 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
-    }
-}
-
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
 
-group 'DocGenerator'
+group 'com.atherys'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 
-repositories {
-    mavenCentral()
-    maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven'
-    }
-    maven {
-        name = 'jitpack'
-        url = 'https://jitpack.io'
-    }
-}
-
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'org.mongodb:mongo-java-driver:3.8.1'
-    compile 'commons-codec:commons-codec:1.10:sources'
-    compile 'commons-codec:commons-codec:1.10:javadoc'
-    compile files("/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64/lib/tools.jar")
-    compile files("/var/lib/jenkins/resources/mongo-java-driver-3.8.1.jar")
-    compile files("/var/lib/jenkins/workspace/AtherysCore.jar/build/libs/AtherysCore-all.jar")
-    shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
-    shadow 'com.github.Atherys-Horizons:AtherysCore:master-SNAPSHOT'
-    shadow 'com.github.Atherys-Horizons:AtherysScript:master-SNAPSHOT'
+    compile files("${System.properties['java.home']}/../lib/tools.jar")
 }
 
-shadowJar {
-    relocate 'org.bson', 'com.atherys.libs.org.bson'
-    relocate 'com.mongodb', 'com.atherys.libs.com.mongodb'
-}
 
