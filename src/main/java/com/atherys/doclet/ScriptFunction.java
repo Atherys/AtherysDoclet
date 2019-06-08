@@ -14,7 +14,7 @@ import java.util.Optional;
  */
 public class ScriptFunction {
     private static final String NAME_TAG = "jsname";
-    private static final String CODE_TAG = "code";
+    private static final String EXAMPLE_TAG = "ex";
 
     private String name;
     private String description;
@@ -22,7 +22,7 @@ public class ScriptFunction {
     private String returnDescription;
     private Module module;
 
-    private String example;
+    private List<String> example;
     private List<Tag> paramDescs;
     private List<Parameter> parameters;
 
@@ -38,7 +38,11 @@ public class ScriptFunction {
         }
 
         Utils.getTag(methodDoc, "return").ifPresent(this::setDescription);
-        Utils.getTag(methodDoc, CODE_TAG).ifPresent(this::setCode);
+
+        example = new ArrayList<>();
+        for (Tag code : methodDoc.tags(EXAMPLE_TAG)) {
+            example.add(code.text());
+        }
 
         description = methodDoc.commentText();
         parameters = Arrays.asList(methodDoc.parameters());
@@ -47,12 +51,12 @@ public class ScriptFunction {
         this.module = module;
     }
 
-    private void setDescription(String description) {
-        returnDescription = description;
+    private void setName(String name) {
+        this.name = name;
     }
 
-    private void setCode(String code) {
-        this.example = code;
+    private void setDescription(String description) {
+        returnDescription = description;
     }
 
     /**
@@ -113,12 +117,12 @@ public class ScriptFunction {
             module.writeln("Returns a _**" + returnType + "**_: " + returnDescription);
         }
 
-        if (example != null) {
+        if (example.size() > 0) {
             module.writeln();
             module.writeln("### Example:");
             module.writeln();
             module.writeln("```js");
-            module.writeln(example);
+            example.forEach(code -> module.writeln(code));
             module.writeln("```");
         }
         module.writeln();
