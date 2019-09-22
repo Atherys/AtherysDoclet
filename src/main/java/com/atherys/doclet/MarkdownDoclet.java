@@ -15,13 +15,8 @@ public class MarkdownDoclet {
     private static Map<String, Module> modules = new HashMap<>();
 
     private static final String FUNCTION_TAG = "jsfunc";
-    private static final Set<String> FUNCTION_NAMES = new HashSet<>();
 
-    static {
-        FUNCTION_NAMES.add("apply");
-        FUNCTION_NAMES.add("get");
-        FUNCTION_NAMES.add("accept");
-    }
+    private static final String FUNCTION_NAME = "call";
 
     public static boolean start(RootDoc start) {
         Utils.makeDir("docs");
@@ -44,7 +39,7 @@ public class MarkdownDoclet {
     private static void handleClass(ClassDoc classDoc) {
         //Loop through methods to see if they are functional interfaces
         for (MethodDoc methodDoc : classDoc.methods()) {
-            if (FUNCTION_NAMES.contains(methodDoc.name())) {
+            if (methodDoc.name().equals(FUNCTION_NAME)) {
 				new ScriptFunction(methodDoc, createModule(classDoc)).write();
             }
         }
