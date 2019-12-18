@@ -98,7 +98,7 @@ public class ScriptFunction {
             module.writeln();
         }
 
-        module.writeln("```js");
+        module.writeln("```groovy");
         module.writeln(signature());
         module.writeln("```");
 
@@ -121,7 +121,7 @@ public class ScriptFunction {
             module.writeln();
             module.writeln("### Example:");
             module.writeln();
-            module.writeln("```js");
+            module.writeln("```groovy");
             example.forEach(code -> module.writeln(code));
             module.writeln("```");
         }
